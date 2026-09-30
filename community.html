@@ -1,0 +1,865 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ThriftScore: Community</title><!-- ThriftScore SEO / head code -->
+<meta name="description" content="Discover ThriftScore, where the secondhand world gathers. Learn how the platform helps shoppers, stores, creators and communities discover, connect, plan and learn.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ThriftScore","alternateName":"ThriftScore App","applicationCategory":"LifestyleApplication","operatingSystem":"Web, iOS, Android","description":"ThriftScore is the app where the secondhand world gathers, helping people discover secondhand destinations, connect with the community, plan, and learn.","publisher":{"@type":"Organization","name":"ThriftScore","email":"info@thriftscore.com","address":{"@type":"PostalAddress","addressLocality":"Frisco","addressRegion":"TX","addressCountry":"US"}}}</script>
+<style>
+/* GHL compatibility: every rule below is scoped to #thriftscore-root (html/body/:root map to the root itself; other selectors are prefixed with :where(#thriftscore-root), which adds no specificity). */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+/* ThriftScore webfonts — exactly the two families the product loads from Google Fonts.
+   Loaded via Google's css2 endpoint (rather than pinned woff2 hashes) so font URLs never
+   go stale. The product APP additionally loads DM Sans (imported above) — Inter is the
+   marketing site, DM Sans is the app UI. */
+
+
+/* ThriftScore colors.
+   Base palette is exactly the seven hex values shipped in the product bundle:
+   #1E3A2F #3A5A4A #B95C28 #9E4D21 #F5EDDD #FFFFFF #000000
+   Semantic aliases mirror the product's Tailwind/shadcn theme (HSL values from :root). */
+#thriftscore-root{
+  /* ---- Base: Forest green ---- */
+  --green-900:#1E3A2F; /* brand green — headers, dark sections, footer, body text */
+  --green-600:#3A5A4A; /* muted green — supporting body copy */
+  --green-500:#4A6B5A; /* interpolated: icon rest state on cream */
+  /* ---- Base: Warm rust ---- */
+  --rust-600:#B95C28;  /* primary action, accents, active tab, stars */
+  --rust-700:#9E4D21;  /* primary hover / pressed */
+  --rust-100:#F2DFD1;  /* interpolated: rust tint pill background */
+  /* ---- Base: Cream ---- */
+  --cream-100:#F5EDDD; /* page background, header on marketing site */
+  --cream-200:#EFE3CE; /* secondary / muted surface (hsl 40 46% 85%) */
+  --white:#FFFFFF;
+  --black:#000000;
+  /* ---- Base: Support ---- */
+  --gold-500:#C9A227;  /* hanger hook detail in the logo only — never UI */
+  --red-500:#EF4444;   /* destructive (hsl 0 84.2% 60.2%) */
+
+  /* ---- Semantic: surfaces ---- */
+  --surface-page:var(--cream-100);
+  --surface-card:var(--white);
+  --surface-card-alt:var(--cream-100);   /* cream card on a white section */
+  --surface-muted:var(--cream-200);
+  --surface-inverse:var(--green-900);    /* dark green section / app top bar */
+  --surface-accent:var(--rust-600);      /* rust hero band in the app */
+  --surface-input:var(--white);
+
+  /* ---- Semantic: text ---- */
+  --text-heading:var(--green-900);
+  --text-body:var(--green-600);
+  --text-muted:var(--green-600);
+  --text-on-dark:var(--cream-100);
+  --text-on-dark-muted:rgba(245,237,221,.85);
+  --text-on-accent:var(--white);
+  --text-link:var(--rust-600);
+  --text-link-hover:var(--rust-700);
+
+  /* ---- Semantic: interactive ---- */
+  --action-primary:var(--rust-600);
+  --action-primary-hover:var(--rust-700);
+  --action-primary-text:var(--white);
+  --action-secondary:var(--green-900);
+  --action-secondary-text:var(--cream-100);
+  --focus-ring:var(--rust-600);
+
+  /* ---- Semantic: lines ---- */
+  --border-hairline:rgba(30,58,47,.12);  /* header rule on cream */
+  --border-field:rgba(30,58,47,.20);     /* input + card outline */
+  --border-strong:rgba(30,58,47,.30);    /* checkbox, control outline */
+  --border-on-dark:rgba(245,237,221,.30);/* star-divider rule on green */
+  --overlay-hero:rgba(30,58,47,.88);     /* photo scrim, .86 at md+ */
+}
+
+
+/* ThriftScore typography.
+   Two families only: Playfair Display (headings) + Inter (everything else).
+   Sizes are the literal values used in the product, mobile first / md: pairs. */
+#thriftscore-root{
+  --font-heading:'Playfair Display',Georgia,serif;
+  --font-sans:'Inter',system-ui,-apple-system,sans-serif;
+  --font-app:'DM Sans',system-ui,-apple-system,sans-serif; /* product app UI font */
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;
+
+  --weight-regular:400;
+  --weight-medium:500;
+  --weight-semibold:600; /* every ThriftScore heading is 600 — never 700 */
+  --weight-bold:700;
+
+  /* Display / headings — Playfair Display 600 */
+  --text-h1:32px;        --text-h1-md:56px;   /* hero */
+  --text-h2:28px;        --text-h2-md:40px;   /* section heading */
+  --text-h2-sm-md:36px;  /* narrow prose section heading at md+ */
+  --text-h3:20px;        --text-h3-md:22px;   /* card title */
+  --text-h4:18px;                            /* app screen title */
+  --leading-heading:1.15;                     /* leading-tight */
+
+  /* Body — Inter */
+  --text-lead:18px;      --text-lead-md:20px;
+  --text-body:16px;
+  --text-sm:14px;
+  --text-xs:13px;
+  --text-eyebrow:12px;   /* uppercase label, tracked */
+  --leading-body:1.6;
+  --leading-prose:1.7;
+  --leading-snug:1.4;
+  --tracking-eyebrow:.14em;
+}
+
+
+/* ThriftScore spacing & layout.
+   The product is built on a 4px base with a few literal one-off values
+   (64/100/140px section rhythm) that are kept verbatim. */
+#thriftscore-root{
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:20px;
+  --space-6:24px;
+  --space-8:32px;
+  --space-10:40px;
+  --space-12:48px;
+  --space-16:64px;
+  --space-20:80px;
+  --space-25:100px;
+  --space-35:140px;
+
+  /* Section rhythm — mobile / desktop */
+  --section-y:64px;
+  --section-y-md:100px;
+  --section-y-hero-md:140px;
+  --section-x:24px;
+
+  /* Content widths */
+  --width-prose:620px;
+  --width-narrow:640px;
+  --width-form:480px;
+  --width-split:880px;
+  --width-content:1080px;
+
+  /* Chrome heights */
+  --header-h:64px;
+  --header-h-md:88px;
+  --tabbar-h:64px;   /* app bottom nav */
+  --control-h:48px;  /* full-size button / input */
+  --touch-min:44px;  /* minimum tap target */
+
+  --grid-gap:16px;
+  --grid-gap-md:24px;
+}
+
+
+/* ThriftScore radii, shadows, and depth.
+   Radii are small and consistent: 6px controls, 8px cards, 999px pills.
+   Shadows are green-tinted and very soft — never neutral gray, never large. */
+#thriftscore-root{
+  --radius-sm:4px;    /* checkbox */
+  --radius-control:6px;/* button, input, select */
+  --radius-card:8px;   /* card, panel, image block (--radius: .5rem) */
+  --radius-lg:12px;    /* app media block */
+  --radius-pill:999px; /* filter chip, avatar, icon button, badge */
+
+  --shadow-card:0 2px 12px rgba(30,58,47,.06);
+  --shadow-panel:0 2px 16px rgba(30,58,47,.08);
+  --shadow-raised:0 4px 20px rgba(30,58,47,.10);
+  --shadow-header:0 2px 12px rgba(30,58,47,.06); /* appears on scroll only */
+  --shadow-none:none;
+
+  --ring-width:2px;
+  --ring-offset:2px;
+}
+
+
+/* ThriftScore motion.
+   The product animates almost nothing: color transitions on interactive
+   elements, a shadow fade on the sticky header. No bounce, no parallax,
+   no entrance animations. Keep it calm. */
+#thriftscore-root{
+  --duration-fast:150ms; /* @kind other */   /* transition-colors default */
+  --duration-base:200ms; /* @kind other */
+  --duration-slow:300ms; /* @kind other */   /* header shadow */
+  --ease-standard:cubic-bezier(.4,0,.2,1); /* @kind other */
+  --ease-out:cubic-bezier(0,0,.2,1); /* @kind other */
+  --transition-colors:color var(--duration-fast) var(--ease-standard),background-color var(--duration-fast) var(--ease-standard),border-color var(--duration-fast) var(--ease-standard);
+}
+
+
+/* ThriftScore product-app tokens.
+   Read off the running app (thriftscore.vercel.app) — these are the literal values the
+   shipped PWA paints with. They differ slightly from the marketing-site palette above:
+   the app's green is #2C4A3E (its <meta name="theme-color">) and its rust is #C4622D. */
+#thriftscore-root{
+  /* ---- App surfaces ---- */
+  --app-green:#2C4A3E;          /* app chrome: sidebar, dark headers, theme-color */
+  --app-green-light:#E8EFEA;    /* pale green pill / rating chip background */
+  --app-rust:#C4622D;           /* primary action, active sort chip, TS mark */
+  --app-rust-light:#F7E7DC;     /* rust tint pill background */
+  --app-cream:#F5F0E8;          /* text + icons on app green */
+  --app-warm:#F0EBE3;           /* inactive chip fill, hairline borders on cream */
+  --app-surface-warm:#FFF8F0;   /* receipt-scan banner fill */
+  --app-amber-line:#F0C080;     /* receipt-scan banner border */
+  --app-badge-bg:#FFF3E0;       /* "Coffee · Nearby" category badge */
+  --app-badge-text:#7A4A10;
+  --app-text-dark:#1E3A2F;
+  --app-text-light:#6B7C73;
+
+  /* ---- App status ---- */
+  --app-open:#1B8A4A;           /* "Open" store status */
+
+  /* ---- Calendar / event categories ---- */
+  --app-cat-sale:#E65100;
+  --app-cat-event:#1B5E5A;
+  --app-cat-class:#4A1D96;
+  --app-cat-promo:#1565C0;
+  --app-cat-crawl:#7B5EA7;
+  --app-cat-style:#8B5CF6;      /* style tag chips ("Vintage", "Cottagecore") */
+
+  /* ---- Third-party marketplace sources ---- */
+  --app-src-ebay:#E53238;
+}
+
+
+/* ThriftScore webfonts — exactly the two families the product loads from Google Fonts.
+   Loaded via Google's css2 endpoint (rather than pinned woff2 hashes) so font URLs never
+   go stale. The product APP additionally loads DM Sans (imported above) — Inter is the
+   marketing site, DM Sans is the app UI. */
+
+/* ThriftScore colors.
+   Base palette is exactly the seven hex values shipped in the product bundle:
+   #1E3A2F #3A5A4A #B95C28 #9E4D21 #F5EDDD #FFFFFF #000000
+   Semantic aliases mirror the product's Tailwind/shadcn theme (HSL values from :root). */
+#thriftscore-root{
+  /* ---- Base: Forest green ---- */
+  --green-900:#1E3A2F; /* brand green — headers, dark sections, footer, body text */
+  --green-600:#3A5A4A; /* muted green — supporting body copy */
+  --green-500:#4A6B5A; /* interpolated: icon rest state on cream */
+  /* ---- Base: Warm rust ---- */
+  --rust-600:#B95C28;  /* primary action, accents, active tab, stars */
+  --rust-700:#9E4D21;  /* primary hover / pressed */
+  --rust-100:#F2DFD1;  /* interpolated: rust tint pill background */
+  /* ---- Base: Cream ---- */
+  --cream-100:#F5EDDD; /* page background, header on marketing site */
+  --cream-200:#EFE3CE; /* secondary / muted surface (hsl 40 46% 85%) */
+  --white:#FFFFFF;
+  --black:#000000;
+  /* ---- Base: Support ---- */
+  --gold-500:#C9A227;  /* hanger hook detail in the logo only — never UI */
+  --red-500:#EF4444;   /* destructive (hsl 0 84.2% 60.2%) */
+
+  /* ---- Semantic: surfaces ---- */
+  --surface-page:var(--cream-100);
+  --surface-card:var(--white);
+  --surface-card-alt:var(--cream-100);   /* cream card on a white section */
+  --surface-muted:var(--cream-200);
+  --surface-inverse:var(--green-900);    /* dark green section / app top bar */
+  --surface-accent:var(--rust-600);      /* rust hero band in the app */
+  --surface-input:var(--white);
+
+  /* ---- Semantic: text ---- */
+  --text-heading:var(--green-900);
+  --text-body:var(--green-600);
+  --text-muted:var(--green-600);
+  --text-on-dark:var(--cream-100);
+  --text-on-dark-muted:rgba(245,237,221,.85);
+  --text-on-accent:var(--white);
+  --text-link:var(--rust-600);
+  --text-link-hover:var(--rust-700);
+
+  /* ---- Semantic: interactive ---- */
+  --action-primary:var(--rust-600);
+  --action-primary-hover:var(--rust-700);
+  --action-primary-text:var(--white);
+  --action-secondary:var(--green-900);
+  --action-secondary-text:var(--cream-100);
+  --focus-ring:var(--rust-600);
+
+  /* ---- Semantic: lines ---- */
+  --border-hairline:rgba(30,58,47,.12);  /* header rule on cream */
+  --border-field:rgba(30,58,47,.20);     /* input + card outline */
+  --border-strong:rgba(30,58,47,.30);    /* checkbox, control outline */
+  --border-on-dark:rgba(245,237,221,.30);/* star-divider rule on green */
+  --overlay-hero:rgba(30,58,47,.88);     /* photo scrim, .86 at md+ */
+}
+
+/* ThriftScore typography.
+   Two families only: Playfair Display (headings) + Inter (everything else).
+   Sizes are the literal values used in the product, mobile first / md: pairs. */
+#thriftscore-root{
+  --font-heading:'Playfair Display',Georgia,serif;
+  --font-sans:'Inter',system-ui,-apple-system,sans-serif;
+  --font-app:'DM Sans',system-ui,-apple-system,sans-serif; /* product app UI font */
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;
+
+  --weight-regular:400;
+  --weight-medium:500;
+  --weight-semibold:600; /* every ThriftScore heading is 600 — never 700 */
+  --weight-bold:700;
+
+  /* Display / headings — Playfair Display 600 */
+  --text-h1:32px;        --text-h1-md:56px;   /* hero */
+  --text-h2:28px;        --text-h2-md:40px;   /* section heading */
+  --text-h2-sm-md:36px;  /* narrow prose section heading at md+ */
+  --text-h3:20px;        --text-h3-md:22px;   /* card title */
+  --text-h4:18px;                            /* app screen title */
+  --leading-heading:1.15;                     /* leading-tight */
+
+  /* Body — Inter */
+  --text-lead:18px;      --text-lead-md:20px;
+  --text-body:16px;
+  --text-sm:14px;
+  --text-xs:13px;
+  --text-eyebrow:12px;   /* uppercase label, tracked */
+  --leading-body:1.6;
+  --leading-prose:1.7;
+  --leading-snug:1.4;
+  --tracking-eyebrow:.14em;
+}
+
+/* ThriftScore spacing & layout.
+   The product is built on a 4px base with a few literal one-off values
+   (64/100/140px section rhythm) that are kept verbatim. */
+#thriftscore-root{
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:20px;
+  --space-6:24px;
+  --space-8:32px;
+  --space-10:40px;
+  --space-12:48px;
+  --space-16:64px;
+  --space-20:80px;
+  --space-25:100px;
+  --space-35:140px;
+
+  /* Section rhythm — mobile / desktop */
+  --section-y:64px;
+  --section-y-md:100px;
+  --section-y-hero-md:140px;
+  --section-x:24px;
+
+  /* Content widths */
+  --width-prose:620px;
+  --width-narrow:640px;
+  --width-form:480px;
+  --width-split:880px;
+  --width-content:1080px;
+
+  /* Chrome heights */
+  --header-h:64px;
+  --header-h-md:88px;
+  --tabbar-h:64px;   /* app bottom nav */
+  --control-h:48px;  /* full-size button / input */
+  --touch-min:44px;  /* minimum tap target */
+
+  --grid-gap:16px;
+  --grid-gap-md:24px;
+}
+
+/* ThriftScore radii, shadows, and depth.
+   Radii are small and consistent: 6px controls, 8px cards, 999px pills.
+   Shadows are green-tinted and very soft — never neutral gray, never large. */
+#thriftscore-root{
+  --radius-sm:4px;    /* checkbox */
+  --radius-control:6px;/* button, input, select */
+  --radius-card:8px;   /* card, panel, image block (--radius: .5rem) */
+  --radius-lg:12px;    /* app media block */
+  --radius-pill:999px; /* filter chip, avatar, icon button, badge */
+
+  --shadow-card:0 2px 12px rgba(30,58,47,.06);
+  --shadow-panel:0 2px 16px rgba(30,58,47,.08);
+  --shadow-raised:0 4px 20px rgba(30,58,47,.10);
+  --shadow-header:0 2px 12px rgba(30,58,47,.06); /* appears on scroll only */
+  --shadow-none:none;
+
+  --ring-width:2px;
+  --ring-offset:2px;
+}
+
+/* ThriftScore motion.
+   The product animates almost nothing: color transitions on interactive
+   elements, a shadow fade on the sticky header. No bounce, no parallax,
+   no entrance animations. Keep it calm. */
+#thriftscore-root{
+  --duration-fast:150ms; /* @kind other */   /* transition-colors default */
+  --duration-base:200ms; /* @kind other */
+  --duration-slow:300ms; /* @kind other */   /* header shadow */
+  --ease-standard:cubic-bezier(.4,0,.2,1); /* @kind other */
+  --ease-out:cubic-bezier(0,0,.2,1); /* @kind other */
+  --transition-colors:color var(--duration-fast) var(--ease-standard),background-color var(--duration-fast) var(--ease-standard),border-color var(--duration-fast) var(--ease-standard);
+}
+
+/* ThriftScore product-app tokens.
+   Read off the running app (thriftscore.vercel.app) — these are the literal values the
+   shipped PWA paints with. They differ slightly from the marketing-site palette above:
+   the app's green is #2C4A3E (its <meta name="theme-color">) and its rust is #C4622D. */
+#thriftscore-root{
+  /* ---- App surfaces ---- */
+  --app-green:#2C4A3E;          /* app chrome: sidebar, dark headers, theme-color */
+  --app-green-light:#E8EFEA;    /* pale green pill / rating chip background */
+  --app-rust:#C4622D;           /* primary action, active sort chip, TS mark */
+  --app-rust-light:#F7E7DC;     /* rust tint pill background */
+  --app-cream:#F5F0E8;          /* text + icons on app green */
+  --app-warm:#F0EBE3;           /* inactive chip fill, hairline borders on cream */
+  --app-surface-warm:#FFF8F0;   /* receipt-scan banner fill */
+  --app-amber-line:#F0C080;     /* receipt-scan banner border */
+  --app-badge-bg:#FFF3E0;       /* "Coffee · Nearby" category badge */
+  --app-badge-text:#7A4A10;
+  --app-text-dark:#1E3A2F;
+  --app-text-light:#6B7C73;
+
+  /* ---- App status ---- */
+  --app-open:#1B8A4A;           /* "Open" store status */
+
+  /* ---- Calendar / event categories ---- */
+  --app-cat-sale:#E65100;
+  --app-cat-event:#1B5E5A;
+  --app-cat-class:#4A1D96;
+  --app-cat-promo:#1565C0;
+  --app-cat-crawl:#7B5EA7;
+  --app-cat-style:#8B5CF6;      /* style tag chips ("Vintage", "Cottagecore") */
+
+  /* ---- Third-party marketplace sources ---- */
+  --app-src-ebay:#E53238;
+}
+
+
+
+/* ThriftScore website — layout + responsive rules. All values from design-system tokens. */
+:where(#thriftscore-root) *{box-sizing:border-box}
+#thriftscore-root{scroll-behavior:smooth}
+#thriftscore-root{margin:0;background:var(--surface-page);font-family:var(--font-sans);color:var(--text-muted);-webkit-font-smoothing:antialiased}
+:where(#thriftscore-root) a{color:var(--text-link);text-decoration:none;transition:var(--transition-colors)}
+:where(#thriftscore-root) a:hover{color:var(--text-link-hover)}
+:where(#thriftscore-root) img{max-width:100%;display:block}
+:where(#thriftscore-root) h1,:where(#thriftscore-root) h2,:where(#thriftscore-root) h3,:where(#thriftscore-root) h4{font-family:var(--font-heading);font-weight:var(--weight-semibold);color:var(--text-heading);line-height:var(--leading-heading);margin:0;text-wrap:pretty}
+:where(#thriftscore-root) p{margin:0;line-height:var(--leading-body);text-wrap:pretty}
+:where(#thriftscore-root) .h1{font-size:clamp(32px,5.4vw,56px)}
+:where(#thriftscore-root) .h2{font-size:clamp(28px,4vw,40px)}
+:where(#thriftscore-root) .h3{font-size:clamp(20px,2.2vw,22px)}
+:where(#thriftscore-root) .lead{font-size:clamp(17px,1.6vw,20px);line-height:var(--leading-prose)}
+:where(#thriftscore-root) .body{font-size:16px}
+:where(#thriftscore-root) .small{font-size:14px}
+:where(#thriftscore-root) .eyebrow{font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;color:var(--rust-600);display:block}
+:where(#thriftscore-root) .on-dark,:where(#thriftscore-root) .on-dark h1,:where(#thriftscore-root) .on-dark h2,:where(#thriftscore-root) .on-dark h3{color:var(--text-on-dark)}
+:where(#thriftscore-root) .on-dark p{color:var(--text-on-dark-muted)}
+
+/* --- bands --- */
+:where(#thriftscore-root) .sect{padding:clamp(48px,6vw,88px) 24px}
+:where(#thriftscore-root) .sect--tight{padding:clamp(36px,4vw,60px) 24px}
+:where(#thriftscore-root) .sect--hero{padding:clamp(88px,10vw,132px) 24px}
+:where(#thriftscore-root) .sect--cream{background:var(--cream-100)}
+:where(#thriftscore-root) .sect--white{background:var(--white)}
+:where(#thriftscore-root) .sect--green{background:var(--green-900)}
+:where(#thriftscore-root) .wrap{max-width:1080px;margin:0 auto;width:100%}
+:where(#thriftscore-root) .wrap--mid{max-width:880px}
+:where(#thriftscore-root) .wrap--narrow{max-width:640px}
+:where(#thriftscore-root) .wrap--prose{max-width:620px}
+:where(#thriftscore-root) .stack{display:flex;flex-direction:column}
+:where(#thriftscore-root) .gap-8{gap:8px}:where(#thriftscore-root) .gap-12{gap:12px}:where(#thriftscore-root) .gap-16{gap:16px}:where(#thriftscore-root) .gap-24{gap:24px}:where(#thriftscore-root) .gap-32{gap:32px}:where(#thriftscore-root) .gap-40{gap:40px}
+:where(#thriftscore-root) .center{text-align:center}
+:where(#thriftscore-root) .mt-32{margin-top:32px}:where(#thriftscore-root) .mt-40{margin-top:40px}
+
+/* --- grids --- */
+:where(#thriftscore-root) .grid{display:grid;gap:24px}
+:where(#thriftscore-root) .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+:where(#thriftscore-root) .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+:where(#thriftscore-root) .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+/* --- media split row --- */
+:where(#thriftscore-root) .split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px);align-items:center}
+:where(#thriftscore-root) .split--flip .split__media{order:2}
+:where(#thriftscore-root) .split__media{border-radius:var(--radius-card);overflow:hidden;background:var(--cream-200);aspect-ratio:4/3}
+:where(#thriftscore-root) .split__media img{width:100%;height:100%;object-fit:cover}
+:where(#thriftscore-root) .split__body{display:flex;flex-direction:column;gap:16px;text-align:left}
+
+/* --- lists --- */
+:where(#thriftscore-root) .ticks{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+:where(#thriftscore-root) .ticks li{display:flex;align-items:flex-start;gap:12px;font-size:16px;color:var(--text-heading);line-height:var(--leading-snug)}
+:where(#thriftscore-root) .ticks li::before{content:"★";color:var(--rust-600);font-size:10px;line-height:1.9;flex-shrink:0}
+
+/* --- header --- */
+:where(#thriftscore-root) .hdr{position:sticky;top:0;z-index:60;background:var(--cream-100);border-bottom:1px solid var(--border-hairline)}
+:where(#thriftscore-root) .hdr--scrolled{box-shadow:var(--shadow-header)}
+:where(#thriftscore-root) .hdr__in{max-width:1180px;margin:0 auto;height:72px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+:where(#thriftscore-root) .hdr__logo img{height:44px;width:auto}
+:where(#thriftscore-root) .nav{display:flex;align-items:center;gap:4px}
+:where(#thriftscore-root) .nav a{font-size:14px;font-weight:var(--weight-medium);color:var(--text-heading);padding:8px 10px;border-radius:var(--radius-control);white-space:nowrap}
+:where(#thriftscore-root) .nav a:hover{color:var(--rust-600);background:var(--cream-200)}
+:where(#thriftscore-root) .nav a[aria-current="page"]{color:var(--rust-600)}
+:where(#thriftscore-root) .burger{display:none;width:44px;height:44px;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border-field);border-radius:var(--radius-control);color:var(--text-heading);cursor:pointer}
+:where(#thriftscore-root) .drawer{display:none;border-top:1px solid var(--border-hairline);background:var(--cream-100);padding:8px 20px 20px}
+:where(#thriftscore-root) .drawer.open{display:block}
+:where(#thriftscore-root) .drawer a{display:block;padding:14px 4px;font-size:16px;font-weight:var(--weight-medium);color:var(--text-heading);border-bottom:1px solid var(--border-hairline)}
+
+/* --- footer --- */
+:where(#thriftscore-root) .ftr{background:var(--green-900);color:var(--text-on-dark);padding:56px 24px 32px;font-size:14px}
+:where(#thriftscore-root) .ftr a{color:rgba(245,237,221,.85)}
+:where(#thriftscore-root) .ftr a:hover{color:var(--white)}
+:where(#thriftscore-root) .ftr__cols{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px}
+:where(#thriftscore-root) .ftr__col{display:flex;flex-direction:column;gap:12px}
+:where(#thriftscore-root) .ftr__h{font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;color:var(--rust-600)}
+:where(#thriftscore-root) .ftr__mark{width:170px;height:auto}
+:where(#thriftscore-root) .ftr__bottom{max-width:1080px;margin:36px auto 0;padding-top:20px;border-top:1px solid var(--border-on-dark);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--text-on-dark-muted)}
+:where(#thriftscore-root) .socials{display:flex;gap:14px}
+:where(#thriftscore-root) .socials a{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:var(--radius-pill);border:1px solid var(--border-on-dark);color:var(--text-on-dark)}
+:where(#thriftscore-root) .socials a:hover{background:rgba(245,237,221,.12)}
+
+/* --- misc --- */
+:where(#thriftscore-root) .accordion{border-top:1px solid var(--border-hairline)}
+:where(#thriftscore-root) .acc__item{border-bottom:1px solid var(--border-hairline)}
+:where(#thriftscore-root) .acc__btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 4px;background:transparent;border:0;cursor:pointer;text-align:left;font-family:var(--font-heading);font-size:17px;font-weight:var(--weight-semibold);color:var(--text-heading)}
+:where(#thriftscore-root) .acc__wrap{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+:where(#thriftscore-root) .acc__panel{padding:0 4px 18px;font-size:15px;line-height:var(--leading-body);color:var(--text-muted);max-width:70ch}
+:where(#thriftscore-root) .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:var(--radius-pill);background:var(--cream-200);color:var(--text-heading);font-size:14px;font-weight:var(--weight-medium)}
+:where(#thriftscore-root) .evt__date{display:flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;flex-shrink:0;border-radius:var(--radius-card);background:var(--rust-600);color:var(--white);font-weight:var(--weight-semibold);line-height:1.1}
+:where(#thriftscore-root) .evt__date span:first-child{font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+:where(#thriftscore-root) .evt__date span:last-child{font-size:22px;font-family:var(--font-heading)}
+
+@media (max-width:1040px){
+  :where(#thriftscore-root) .grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  :where(#thriftscore-root) .team__lead{grid-template-columns:1fr!important}
+}
+@media (max-width:1100px){
+  :where(#thriftscore-root) .nav a{padding:8px 7px;font-size:13px}
+  :where(#thriftscore-root) .hdr__cta{display:none}
+}
+@media (max-width:860px){
+  :where(#thriftscore-root) .join__grid{grid-template-columns:1fr!important}
+}
+@media (max-width:900px){
+  :where(#thriftscore-root) .nav{display:none}
+  :where(#thriftscore-root) .burger{display:inline-flex}
+  :where(#thriftscore-root) .grid-3,:where(#thriftscore-root) .grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  :where(#thriftscore-root) .ftr__cols{grid-template-columns:1fr 1fr;gap:32px}
+}
+@media (max-width:640px){
+  :where(#thriftscore-root) .ticks{grid-template-columns:1fr!important}
+  :where(#thriftscore-root) .sect{padding:44px 20px}
+  :where(#thriftscore-root) .sect--tight{padding:32px 20px}
+  :where(#thriftscore-root) .sect--hero{padding:72px 20px}
+  :where(#thriftscore-root) .grid{gap:16px}
+  :where(#thriftscore-root) .grid-2,:where(#thriftscore-root) .grid-3,:where(#thriftscore-root) .grid-4{grid-template-columns:1fr}
+  :where(#thriftscore-root) .split{grid-template-columns:1fr;gap:24px}
+  :where(#thriftscore-root) .split--flip .split__media{order:0}
+  :where(#thriftscore-root) .ftr__cols{grid-template-columns:1fr}
+  :where(#thriftscore-root) .ftr{padding:40px 20px 24px}
+}
+
+
+/* v2 — marketplace-grade patterns layered on the ThriftScore system.
+   Loaded after site/site.css; only adds, never redefines the base. */
+
+/* --- announcement + utility bar --- */
+:where(#thriftscore-root) .bar{background:var(--green-900);color:var(--text-on-dark);font-size:13px}
+:where(#thriftscore-root) .bar__in{max-width:1240px;margin:0 auto;padding:9px 20px;display:flex;align-items:center;justify-content:center;gap:10px;text-align:center}
+:where(#thriftscore-root) .bar a{color:var(--cream-100);text-decoration:underline;text-underline-offset:3px}
+:where(#thriftscore-root) .bar a:hover{color:var(--white)}
+
+/* --- v2 header --- */
+:where(#thriftscore-root) .hdr2{position:sticky;top:0;z-index:60;background:var(--cream-100);border-bottom:1px solid var(--border-hairline)}
+:where(#thriftscore-root) .hdr2--scrolled{box-shadow:var(--shadow-header)}
+:where(#thriftscore-root) .hdr2__row{max-width:1240px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:20px}
+:where(#thriftscore-root) .hdr2__logo img{height:46px;width:auto}
+:where(#thriftscore-root) .hdr2__search{flex:1;max-width:520px}
+:where(#thriftscore-root) .hdr2__acts{display:flex;align-items:center;gap:10px;margin-left:auto}
+:where(#thriftscore-root) .hdr2__nav{max-width:1240px;margin:0 auto;padding:0 20px 10px;display:flex;gap:22px;overflow-x:auto;scrollbar-width:none}
+:where(#thriftscore-root) .hdr2__nav::-webkit-scrollbar{display:none}
+:where(#thriftscore-root) .drawer a,:where(#thriftscore-root) .ftr a{transition:var(--transition-colors),transform var(--duration-fast) var(--ease-out)}
+:where(#thriftscore-root) .hdr2__nav a{font-size:14px;font-weight:var(--weight-medium);color:var(--text-heading);padding:6px 0;border-bottom:2px solid transparent;white-space:nowrap;transition:var(--transition-colors),border-bottom-color var(--duration-base) var(--ease-standard),transform var(--duration-fast) var(--ease-out)}
+:where(#thriftscore-root) .hdr2__nav a:hover{color:var(--rust-600)}
+:where(#thriftscore-root) .hdr2__nav a:active,:where(#thriftscore-root) .drawer a:active,:where(#thriftscore-root) .ftr a:active{transform:scale(.96)}
+:where(#thriftscore-root) .hdr2__nav a[aria-current="page"]{color:var(--rust-600);border-bottom-color:var(--rust-600)}
+
+/* --- hero --- */
+:where(#thriftscore-root) .hero2{background:var(--cream-100);padding:clamp(32px,4vw,56px) 20px}
+:where(#thriftscore-root) .hero2__in{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,3vw,48px);align-items:center}
+:where(#thriftscore-root) .hero2__copy{display:flex;flex-direction:column;gap:18px;text-align:left}
+:where(#thriftscore-root) .hero2__title{font-size:clamp(34px,4.6vw,60px)}
+:where(#thriftscore-root) .hero2__collage{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:12px;height:clamp(320px,38vw,480px)}
+:where(#thriftscore-root) .hero2__collage>*{border-radius:var(--radius-card);overflow:hidden;background:var(--cream-200)}
+:where(#thriftscore-root) .hero2__collage>*:first-child{grid-row:span 2}
+:where(#thriftscore-root) .hero2__collage img{width:100%;height:100%;object-fit:cover}
+:where(#thriftscore-root) .searchrow{display:flex;gap:10px;background:var(--white);border:1px solid var(--border-field);border-radius:var(--radius-pill);padding:6px 6px 6px 18px;align-items:center;max-width:520px}
+:where(#thriftscore-root) .searchrow input{flex:1;min-width:0;border:0;outline:none;background:none;font-family:var(--font-sans);font-size:16px;color:var(--text-heading);height:44px}
+:where(#thriftscore-root) .trust{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--text-body)}
+:where(#thriftscore-root) .trust span{display:inline-flex;align-items:center;gap:7px}
+
+/* --- horizontal category rail --- */
+:where(#thriftscore-root) .rail{display:flex;gap:14px;overflow-x:auto;padding:4px 0 10px;scroll-snap-type:x mandatory;scrollbar-width:none}
+:where(#thriftscore-root) .rail::-webkit-scrollbar{display:none}
+:where(#thriftscore-root) .rail>*{scroll-snap-align:start;flex:0 0 auto}
+:where(#thriftscore-root) .tile{width:186px;padding:20px 18px;border-radius:var(--radius-card);background:var(--white);border:1px solid var(--border-hairline);display:flex;flex-direction:column;gap:10px;text-align:left;cursor:pointer;transition:var(--transition-colors)}
+:where(#thriftscore-root) .tile:hover{background:var(--cream-100)}
+:where(#thriftscore-root) .tile__ico{color:var(--rust-600)}
+:where(#thriftscore-root) .tile__t{font-family:var(--font-heading);font-size:18px;font-weight:var(--weight-semibold);color:var(--text-heading)}
+:where(#thriftscore-root) .tile__m{font-size:13px;color:var(--text-body)}
+
+/* --- store cards --- */
+:where(#thriftscore-root) .storecard{background:var(--white);border:1px solid var(--border-hairline);border-radius:var(--radius-card);overflow:hidden;display:flex;flex-direction:column;text-align:left}
+:where(#thriftscore-root) .storecard__img{aspect-ratio:16/11;background:var(--cream-200);position:relative}
+:where(#thriftscore-root) .storecard__img img{width:100%;height:100%;object-fit:cover}
+:where(#thriftscore-root) .storecard__tag{position:absolute;top:10px;left:10px;background:var(--cream-100);color:var(--green-900);font-size:11px;font-weight:var(--weight-semibold);letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:var(--radius-pill)}
+:where(#thriftscore-root) .storecard__b{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+:where(#thriftscore-root) .storecard__meta{font-size:13px;color:var(--text-body);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+:where(#thriftscore-root) .storecard__foot{margin-top:auto;padding-top:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--border-hairline);font-size:13px}
+:where(#thriftscore-root) .open{color:#1B7A3E;font-weight:var(--weight-medium)}
+
+/* --- editorial collection cards --- */
+:where(#thriftscore-root) .edit{position:relative;border-radius:var(--radius-card);overflow:hidden;min-height:260px;display:flex;align-items:flex-end;color:var(--cream-100);background:var(--green-900)}
+:where(#thriftscore-root) .edit img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+:where(#thriftscore-root) .edit__scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(30,58,47,.15),rgba(30,58,47,.86))}
+:where(#thriftscore-root) .edit__b{position:relative;padding:20px;display:flex;flex-direction:column;gap:8px}
+:where(#thriftscore-root) .edit__b h3{color:var(--cream-100);font-size:22px}
+:where(#thriftscore-root) .edit__b p{font-size:14px;color:rgba(245,237,221,.88)}
+
+/* --- stats band --- */
+:where(#thriftscore-root) .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;text-align:center}
+:where(#thriftscore-root) .stat__n{font-family:var(--font-heading);font-size:clamp(30px,3.6vw,44px);color:var(--rust-600);line-height:1}
+:where(#thriftscore-root) .stat__l{font-size:14px;color:var(--text-on-dark-muted);margin-top:8px}
+
+/* --- community finds grid (drop your own photos) --- */
+:where(#thriftscore-root) .finds{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+:where(#thriftscore-root) .finds image-slot{border-radius:var(--radius-card);overflow:hidden;aspect-ratio:1;display:block}
+:where(#thriftscore-root) .finds__wide{grid-column:span 2;grid-row:span 2}
+
+/* --- testimonials --- */
+:where(#thriftscore-root) .quote{background:var(--white);border:1px solid var(--border-hairline);border-radius:var(--radius-card);padding:24px;display:flex;flex-direction:column;gap:14px;text-align:left;height:100%}
+:where(#thriftscore-root) .quote p{font-family:var(--font-heading);font-size:18px;line-height:1.45;color:var(--text-heading)}
+:where(#thriftscore-root) .quote__who{display:flex;align-items:center;gap:12px;margin-top:auto;font-size:13px;color:var(--text-body)}
+:where(#thriftscore-root) .avat{width:38px;height:38px;border-radius:var(--radius-pill);background:var(--cream-200);color:var(--green-900);display:inline-flex;align-items:center;justify-content:center;font-weight:var(--weight-semibold);flex-shrink:0}
+
+/* --- newsletter strip --- */
+:where(#thriftscore-root) .news{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+:where(#thriftscore-root) .news form{display:flex;gap:10px;flex-wrap:wrap}
+
+/* --- event rows --- */
+:where(#thriftscore-root) .evtrow{display:flex;align-items:center;gap:20px;width:100%;background:var(--surface-card);border-radius:var(--radius-card);box-shadow:var(--shadow-card);padding:20px;text-align:left}
+
+/* --- filter bar (browse) --- */
+:where(#thriftscore-root) .filters{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+:where(#thriftscore-root) .filters::-webkit-scrollbar{display:none}
+:where(#thriftscore-root) .filters>*{flex:0 0 auto}
+:where(#thriftscore-root) .filters>* button,:where(#thriftscore-root) .filters>button{transition:var(--transition-colors),transform var(--duration-fast) var(--ease-out)}
+:where(#thriftscore-root) .filters>* button:active,:where(#thriftscore-root) .filters>button:active{transform:scale(.95)}
+
+:where(#thriftscore-root) .team__photo{width:100%;align-self:stretch;aspect-ratio:4/5;background:var(--cream-200)}
+:where(#thriftscore-root) .team__photo image-slot{display:block;width:100%;height:100%}
+:where(#thriftscore-root) .team__lead .team__photo{aspect-ratio:auto;min-height:280px}
+
+@media (max-width:1040px){
+  :where(#thriftscore-root) .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:900px){
+  :where(#thriftscore-root) .hero2__in{grid-template-columns:1fr}
+  :where(#thriftscore-root) .hero2__collage{height:300px}
+  :where(#thriftscore-root) .hdr2__search{display:none}
+  :where(#thriftscore-root) .hdr2__nav{display:none}
+  :where(#thriftscore-root) .finds{grid-template-columns:repeat(4,minmax(0,1fr))}
+  :where(#thriftscore-root) .news{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  :where(#thriftscore-root) .hdr2__row{gap:12px;padding:10px 16px}
+  :where(#thriftscore-root) .hdr2__logo img{height:38px}
+  :where(#thriftscore-root) .hdr2__nav{padding:0 16px 8px;gap:18px}
+  :where(#thriftscore-root) .hero2{padding:20px 20px 28px}
+  :where(#thriftscore-root) .hero2__collage{grid-template-rows:1fr;height:190px;gap:10px}
+  :where(#thriftscore-root) .hero2__collage>*:first-child{grid-row:span 1}
+  :where(#thriftscore-root) .hero2__collage>*:nth-child(3){display:none}
+  :where(#thriftscore-root) .finds{grid-template-columns:repeat(2,minmax(0,1fr))}
+  :where(#thriftscore-root) .tile{width:158px;padding:16px 14px}
+  :where(#thriftscore-root) .hdr2__browse{display:none}
+  /* full-bleed rails so the next card peeks off the edge */
+  :where(#thriftscore-root) .rail,:where(#thriftscore-root) .filters{margin-inline:-20px;padding-inline:20px}
+  :where(#thriftscore-root) .hero2__title{font-size:clamp(30px,8.4vw,40px)}
+  :where(#thriftscore-root) .hero2__copy{gap:14px}
+  :where(#thriftscore-root) .searchrow{padding:5px 5px 5px 14px;gap:6px}
+  :where(#thriftscore-root) .searchrow input{height:42px}
+  :where(#thriftscore-root) .trust{gap:6px 14px;font-size:12px}
+  :where(#thriftscore-root) .evtrow{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:8px 14px;padding:16px}
+  :where(#thriftscore-root) .evtrow .evt__date{width:54px;height:54px}
+  :where(#thriftscore-root) .evtrow>*:last-child{grid-column:2;justify-self:start;margin:0}
+  :where(#thriftscore-root) .edit{min-height:210px}
+  :where(#thriftscore-root) .quote p{font-size:17px}
+  :where(#thriftscore-root) .storecard__b{padding:14px 16px 16px}
+  :where(#thriftscore-root) .news form,:where(#thriftscore-root) .news form button{width:100%}
+  :where(#thriftscore-root) .news form>div{width:100%!important}
+  :where(#thriftscore-root) .bar__in{padding:8px 16px;font-size:12px;text-align:left}
+}
+@media (max-width:400px){
+  :where(#thriftscore-root) .tile{width:150px}
+  :where(#thriftscore-root) .stats{grid-template-columns:1fr;gap:20px}
+}
+
+
+:where(#thriftscore-root) .sr-crawler-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+/* GHL integration safety */
+#thriftscore-root{width:100%;max-width:none;margin:0;padding:0;}
+#thriftscore-root *{box-sizing:border-box;}
+
+/* Static export: photo slots rendered as plain markup, using the same styles the photo component applied */
+:where(#thriftscore-root) image-slot{display:block;width:100%;height:100%;min-height:80px;position:relative}
+:where(#thriftscore-root) image-slot>.ts-slot__frame{width:100%;height:100%;position:absolute;inset:0;background:#eee9df;overflow:hidden;border-radius:inherit}
+:where(#thriftscore-root) image-slot>.ts-slot__frame>img.ts-slot__img{width:100%;height:100%;max-width:none;display:block;object-position:center top}
+:where(#thriftscore-root) image-slot .ts-slot__empty{height:100%;display:grid;place-content:center;text-align:center;color:#6b7269;font:14px/1.5 'DM Sans',sans-serif;padding:20px;background:#eee9df}
+:where(#thriftscore-root) .ts-img-missing{display:grid;place-content:center;text-align:center;color:#6b7269;font:14px/1.5 'DM Sans',sans-serif;padding:20px;background:#eee9df;min-height:120px}
+
+/* Touch screens: no hover-only effects, so the first tap follows the link (avoids iOS/iPad double-tap) */
+@media (hover:none){:where(#thriftscore-root) .hdr2__nav a:not([aria-current='page']):hover:after{right:100%}}
+</style></head><body style="margin:0"><div id="thriftscore-root"><nav class="sr-crawler-only" aria-label="All pages"><a href="index.html">Home</a><a href="how-it-works.html">How It Works</a><a href="community.html">Community</a><a href="about.html">About</a><a href="founders.html">Meet the Founders</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="events.html">Events</a><a href="learn.html">Learn</a><a href="impact.html">Impact</a><a href="join.html">Join</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="browse.html">Browse Stores</a></nav><style>
+      /* THRIFTSCORE PREMIUM DESIGN PASS */
+      #thriftscore-root{
+        --premium-shadow:0 18px 50px rgba(30,58,47,.10);
+        --premium-shadow-soft:0 10px 28px rgba(30,58,47,.065);
+        --premium-line:rgba(30,58,47,.11);
+      }
+      #thriftscore-root{scroll-behavior:smooth}
+      #thriftscore-root{background:#faf8f3;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+      :where(#thriftscore-root) main{overflow:hidden}
+      :where(#thriftscore-root) .wrap{width:min(1180px,calc(100% - 40px))}
+      :where(#thriftscore-root) .wrap--mid{width:min(1040px,calc(100% - 40px))}
+      :where(#thriftscore-root) .wrap--prose{width:min(790px,calc(100% - 40px))}
+      :where(#thriftscore-root) .sect{position:relative}
+      :where(#thriftscore-root) .sect--cream:before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 8% 12%,rgba(185,92,40,.055),transparent 28%),radial-gradient(circle at 92% 78%,rgba(30,58,47,.045),transparent 30%)}
+      :where(#thriftscore-root) .sect--green:before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 18% 15%,rgba(245,237,221,.055),transparent 26%),radial-gradient(circle at 84% 80%,rgba(185,92,40,.10),transparent 28%)}
+      :where(#thriftscore-root) .sect>.wrap{position:relative;z-index:1}
+      :where(#thriftscore-root) .h1{letter-spacing:-.035em;line-height:1.02;text-wrap:balance}
+      :where(#thriftscore-root) .h2{letter-spacing:-.025em;line-height:1.08;text-wrap:balance}
+      :where(#thriftscore-root) .h3{letter-spacing:-.012em}
+      :where(#thriftscore-root) .lead{line-height:1.68}
+      :where(#thriftscore-root) .eyebrow{letter-spacing:.18em;font-weight:700}
+
+      /* Header */
+      :where(#thriftscore-root) .hdr2{position:sticky;top:0;z-index:1000;background:rgba(250,248,243,.92);backdrop-filter:blur(18px) saturate(1.15);border-bottom:1px solid rgba(30,58,47,.075);transition:box-shadow .25s ease,background .25s ease}
+      :where(#thriftscore-root) .hdr2--scrolled{background:rgba(250,248,243,.97);box-shadow:0 10px 30px rgba(30,58,47,.07)}
+      :where(#thriftscore-root) .hdr2__row{max-width:1240px;margin:auto;padding-top:13px;padding-bottom:10px}
+      :where(#thriftscore-root) .hdr2__logo img{filter:drop-shadow(0 2px 5px rgba(30,58,47,.06))}
+      :where(#thriftscore-root) .hdr2__nav{max-width:1240px;margin:auto;border-top:1px solid rgba(30,58,47,.055)}
+      :where(#thriftscore-root) .hdr2__nav a{position:relative;padding-top:12px;padding-bottom:12px;border-bottom:0!important}
+      :where(#thriftscore-root) .hdr2__nav a[aria-current='page']{border-bottom:0!important}
+      :where(#thriftscore-root) .hdr2__nav a:after{content:'';position:absolute;left:0;right:100%;bottom:5px;height:2px;border-radius:4px;background:var(--rust-600);transition:right .22s ease}
+      :where(#thriftscore-root) .hdr2__nav a:hover:after,:where(#thriftscore-root) .hdr2__nav a[aria-current='page']:after{right:0}
+      :where(#thriftscore-root) .searchrow{box-shadow:0 6px 18px rgba(30,58,47,.055);border-color:rgba(30,58,47,.14)!important}
+      :where(#thriftscore-root) .drawer{box-shadow:0 24px 45px rgba(30,58,47,.13)}
+
+      /* Buttons and interactive cards */
+      :where(#thriftscore-root) button,:where(#thriftscore-root) a{ -webkit-tap-highlight-color:transparent }
+      :where(#thriftscore-root) .tile,:where(#thriftscore-root) .storecard,:where(#thriftscore-root) .edit,:where(#thriftscore-root) .quote,:where(#thriftscore-root) .evtrow,:where(#thriftscore-root) .story10__step,:where(#thriftscore-root) .story10__mediaCard,:where(#thriftscore-root) .story10__bridgeCard,:where(#thriftscore-root) .team10__card,:where(#thriftscore-root) .team10__lead,:where(#thriftscore-root) .team10__community{transition:transform .26s cubic-bezier(.2,.8,.2,1),box-shadow .26s ease,border-color .26s ease}
+      :where(#thriftscore-root) .tile:hover,:where(#thriftscore-root) .storecard:hover,:where(#thriftscore-root) .quote:hover,:where(#thriftscore-root) .evtrow:hover,:where(#thriftscore-root) .story10__step:hover,:where(#thriftscore-root) .story10__mediaCard:hover,:where(#thriftscore-root) .story10__bridgeCard:hover,:where(#thriftscore-root) .team10__card:hover{transform:translateY(-5px);box-shadow:var(--premium-shadow-soft);border-color:rgba(185,92,40,.23)}
+      :where(#thriftscore-root) .tile{border-radius:18px!important}
+      :where(#thriftscore-root) .tile__ico{width:42px;height:42px;border-radius:12px;background:rgba(185,92,40,.10);display:inline-flex;align-items:center;justify-content:center}
+      :where(#thriftscore-root) .storecard{border-radius:20px!important;box-shadow:0 5px 18px rgba(30,58,47,.035)}
+      :where(#thriftscore-root) .storecard__img{overflow:hidden}
+      :where(#thriftscore-root) .storecard__img img{transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+      :where(#thriftscore-root) .storecard:hover .storecard__img img{transform:scale(1.035)}
+      :where(#thriftscore-root) .storecard__tag{box-shadow:0 4px 12px rgba(30,58,47,.10);backdrop-filter:blur(8px)}
+      :where(#thriftscore-root) .edit{border-radius:22px!important;box-shadow:var(--premium-shadow-soft)}
+      :where(#thriftscore-root) .edit img{transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+      :where(#thriftscore-root) .edit:hover img{transform:scale(1.045)}
+      :where(#thriftscore-root) .edit__scrim{background:linear-gradient(180deg,rgba(30,58,47,.02),rgba(30,58,47,.92))!important}
+      :where(#thriftscore-root) .quote{border-radius:20px!important}
+      :where(#thriftscore-root) .evtrow{border:1px solid rgba(30,58,47,.08);box-shadow:0 5px 18px rgba(30,58,47,.04)!important}
+
+      /* Page hero */
+      :where(#thriftscore-root) main>.sect--cream:first-child{background:linear-gradient(145deg,#f8f0e1 0%,#faf8f3 56%,#f3ead9 100%)}
+      :where(#thriftscore-root) main>.sect--cream:first-child .h1{max-width:880px!important}
+      :where(#thriftscore-root) main>.sect--cream:first-child .lead{max-width:720px!important}
+
+      /* Footer */
+      :where(#thriftscore-root) .ftr{position:relative;overflow:hidden}
+      :where(#thriftscore-root) .ftr:before{content:'';position:absolute;width:420px;height:420px;border-radius:50%;right:-180px;top:-220px;background:rgba(185,92,40,.09);filter:blur(4px);pointer-events:none}
+      :where(#thriftscore-root) .ftr__cols,:where(#thriftscore-root) .ftr__bottom{position:relative;z-index:1}
+      :where(#thriftscore-root) .ftr__col a{transition:opacity .2s ease,transform .2s ease}
+      :where(#thriftscore-root) .ftr__col a:hover{opacity:1;transform:translateX(2px)}
+
+      /* Home hero */
+      :where(#thriftscore-root) .hero2{background:linear-gradient(145deg,#f7efdf 0%,#fbf9f5 52%,#f1e8d8 100%);padding-top:clamp(42px,6vw,82px);padding-bottom:clamp(48px,7vw,92px);position:relative;overflow:hidden}
+      :where(#thriftscore-root) .hero2:before{content:'';position:absolute;width:440px;height:440px;border-radius:50%;background:rgba(185,92,40,.085);filter:blur(2px);right:-190px;top:-180px}
+      :where(#thriftscore-root) .hero2:after{content:'';position:absolute;width:340px;height:340px;border-radius:50%;background:rgba(30,58,47,.055);left:-190px;bottom:-220px}
+      :where(#thriftscore-root) .hero2__in{position:relative;z-index:1;width:min(1240px,calc(100% - 40px));max-width:1240px!important;margin-inline:auto;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr)!important;gap:clamp(36px,5vw,72px)!important}
+      :where(#thriftscore-root) .hero2__copy{align-self:center;gap:20px!important;min-width:0}
+      :where(#thriftscore-root) .hero2__copy>.eyebrow{display:inline-flex;width:max-content;padding:8px 12px;border:1px solid rgba(185,92,40,.20);border-radius:999px;background:rgba(255,255,255,.5)}
+      :where(#thriftscore-root) .hero2__title{font-size:clamp(44px,5vw,68px)!important;max-width:720px}
+      :where(#thriftscore-root) .hero2__collage{height:520px!important;gap:14px!important;filter:drop-shadow(0 18px 28px rgba(30,58,47,.12));min-width:0}
+      :where(#thriftscore-root) .hero2__collage>div:not(.hero2__float){position:relative;overflow:hidden;border-radius:22px!important;border:6px solid rgba(255,255,255,.78);background:#eee5d4}
+      :where(#thriftscore-root) .hero2__collage>div:first-child{transform:rotate(-1.2deg)}
+      :where(#thriftscore-root) .hero2__collage>div:nth-child(2){transform:translateY(12px) rotate(1.2deg)}
+      :where(#thriftscore-root) .hero2__collage>div:nth-child(3){transform:translateY(-6px) rotate(.6deg)}
+      :where(#thriftscore-root) .hero2__collage img{transition:transform .65s cubic-bezier(.2,.8,.2,1)}
+      :where(#thriftscore-root) .hero2__collage:hover img{transform:scale(1.025)}
+      :where(#thriftscore-root) .hero2__caption{position:absolute;left:14px;bottom:14px;padding:7px 11px;border-radius:999px;background:rgba(250,248,243,.94);backdrop-filter:blur(9px);color:var(--green-900);font-size:11px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;box-shadow:0 5px 14px rgba(30,58,47,.13)}
+      :where(#thriftscore-root) .hero2__collage>.hero2__float{position:absolute;right:22px;top:42%;z-index:4;display:flex;align-items:center;gap:10px;background:#1E3A2F!important;color:#F5EDDD!important;padding:13px 15px;border:1px solid rgba(245,237,221,.16)!important;border-radius:16px!important;overflow:visible!important;box-shadow:0 14px 30px rgba(30,58,47,.22);font-size:12px;line-height:1.4;max-width:200px}
+      :where(#thriftscore-root) .hero2__collage>.hero2__float strong,:where(#thriftscore-root) .hero2__collage>.hero2__float span{color:inherit}
+      :where(#thriftscore-root) .hero2__floatIcon{width:31px;height:31px;border-radius:10px;background:rgba(245,237,221,.12);display:grid;place-items:center;color:#e09b74;flex:0 0 auto}
+
+      /* Final QA: no floating overlay on the homepage image collage. */
+      :where(#thriftscore-root) .hero2__float{display:none!important}
+      :where(#thriftscore-root) .trust{padding-top:3px}
+
+      /* Newsletter */
+      :where(#thriftscore-root) .news{background:rgba(255,255,255,.64);border:1px solid rgba(30,58,47,.08);border-radius:24px;padding:clamp(24px,4vw,42px);box-shadow:0 10px 30px rgba(30,58,47,.055)}
+
+      @media(max-width:1050px){:where(#thriftscore-root) .hero2__in{width:min(100% - 40px,900px);grid-template-columns:1fr!important}:where(#thriftscore-root) .hero2__collage{height:400px!important;max-width:760px;width:100%;margin-inline:auto}:where(#thriftscore-root) .hero2__collage>.hero2__float{right:12px}}
+      @media(max-width:900px){:where(#thriftscore-root) .wrap,:where(#thriftscore-root) .wrap--mid,:where(#thriftscore-root) .wrap--prose{width:min(100% - 32px,1180px)}:where(#thriftscore-root) .hero2__in{width:min(100% - 32px,900px)}:where(#thriftscore-root) .hero2__collage{height:330px!important}:where(#thriftscore-root) .hero2__collage>.hero2__float{display:none!important}}
+      @media(max-width:640px){
+        :where(#thriftscore-root) .hero2{padding:30px 16px 42px!important}:where(#thriftscore-root) .hero2__in{gap:28px!important}:where(#thriftscore-root) .hero2__title{font-size:clamp(36px,10vw,48px)!important}:where(#thriftscore-root) .hero2__collage{height:230px!important;gap:8px!important}:where(#thriftscore-root) .hero2__collage>div{border-width:4px;border-radius:16px!important}:where(#thriftscore-root) .hero2__caption{left:9px;bottom:9px;padding:5px 8px;font-size:9px}:where(#thriftscore-root) .news{border-radius:19px;padding:22px}:where(#thriftscore-root) .h1{letter-spacing:-.025em}
+      }
+      /* Layout QA guards: prevent premium styling from creating horizontal drift. */
+      :where(#thriftscore-root) .hero2__in>*,:where(#thriftscore-root) .grid>*,:where(#thriftscore-root) .split>*,:where(#thriftscore-root) .join__grid>*{min-width:0}
+      :where(#thriftscore-root) img{max-width:100%}
+      @media(prefers-reduced-motion:reduce){:where(#thriftscore-root) *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+    </style><header class="hdr2"><div class="hdr2__row"><a class="hdr2__logo" href="index.html" aria-label="ThriftScore home"><img src="https://assets.cdn.filesafe.space/aHBTsOEqsC9ODoKsOXLu/media/6a6b94044cb07d8c3fe2e43c.png" alt="ThriftScore"></a><div class="hdr2__acts"><button type="button" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-sans); font-weight: var(--weight-semibold); border-radius: var(--radius-pill); white-space: nowrap; cursor: pointer; transition: var(--transition-colors); opacity: 1; pointer-events: auto; width: auto; font-size: 14px; padding: 10px 20px; background: var(--action-primary); color: var(--action-primary-text); border-width: medium; border-style: none; border-color: currentcolor; border-image: none;" data-href="join.html" data-hover-style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-sans); font-weight: var(--weight-semibold); border-radius: var(--radius-pill); white-space: nowrap; cursor: pointer; transition: var(--transition-colors); opacity: 1; pointer-events: auto; width: auto; font-size: 14px; padding: 10px 20px; background: var(--action-primary-hover); color: var(--action-primary-text); border-width: medium; border-style: none; border-color: currentcolor; border-image: none;">Join free</button><button class="burger" aria-label="Menu" aria-expanded="false"><span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; flex-shrink: 0; color: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="menu" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></span></button></div></div><nav class="hdr2__nav"><a href="how-it-works.html">How It Works</a><a href="community.html" aria-current="page">Community</a><a href="about.html">About</a><a href="founders.html">Meet the Founders</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav><div class="drawer"><a href="how-it-works.html">How It Works</a><a href="community.html">Community</a><a href="about.html">About</a><a href="founders.html">Meet the Founders</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><button type="button" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-sans); font-weight: var(--weight-semibold); border-radius: var(--radius-control); white-space: nowrap; cursor: pointer; transition: var(--transition-colors); opacity: 1; pointer-events: auto; width: 100%; font-size: 16px; height: 48px; padding: 0px 24px; background: var(--action-primary); color: var(--action-primary-text); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; margin-top: 16px;" data-href="join.html" data-hover-style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-sans); font-weight: var(--weight-semibold); border-radius: var(--radius-control); white-space: nowrap; cursor: pointer; transition: var(--transition-colors); opacity: 1; pointer-events: auto; width: 100%; font-size: 16px; height: 48px; padding: 0px 24px; background: var(--action-primary-hover); color: var(--action-primary-text); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; margin-top: 16px;">Join free</button></div></header><main><section class="sect sect--cream sect--tight " style="padding-top: clamp(44px, 5vw, 72px);"><div class="wrap wrap--mid"><div class="center stack gap-16" style="align-items: center;"><div style="display: flex; align-items: center; justify-content: center; gap: 12px; width: 80px; margin: 0px auto;"><span style="height: 1px; flex: 1 1 0%; background: var(--border-field);"></span><span style="color: var(--rust-600); font-size: 10px; line-height: 1;">★</span><span style="height: 1px; flex: 1 1 0%; background: var(--border-field);"></span></div><span class="eyebrow">Community</span><h1 class="h1" style="max-width: 820px;">The best part of secondhand is the people</h1><p class="lead" style="max-width: 660px;">Share what you find, follow the people and stores you love, and be part of a community that actually appreciates a good score.</p></div></div></section><section class="sect sect--white "><div class="wrap "><div class="grid grid-3"><div style="border-radius: var(--radius-card); padding: 28px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; align-items: flex-start; text-align: left; font-family: var(--font-sans); background: var(--surface-card-alt); color: var(--text-body); height: 100%; gap: 12px;"><span style="color: var(--rust-600); display: inline-flex;"><span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; color: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="camera" class="lucide lucide-camera"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle></svg></span></span><h3 class="h3">Post your finds</h3><p class="body" style="color: var(--text-body);">Share the score, the store, and the price if you’re proud of it. Photos, captions, and the story behind it.</p></div><div style="border-radius: var(--radius-card); padding: 28px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; align-items: flex-start; text-align: left; font-family: var(--font-sans); background: var(--surface-card-alt); color: var(--text-body); height: 100%; gap: 12px;"><span style="color: var(--rust-600); display: inline-flex;"><span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; color: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="users" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span></span><h3 class="h3">Join groups</h3><p class="body" style="color: var(--text-body);">Vintage denim, records, mid-century, kidswear, upcycling: find the corner of the community that’s yours.</p></div><div style="border-radius: var(--radius-card); padding: 28px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; align-items: flex-start; text-align: left; font-family: var(--font-sans); background: var(--surface-card-alt); color: var(--text-body); height: 100%; gap: 12px;"><span style="color: var(--rust-600); display: inline-flex;"><span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; color: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="message-square" class="lucide lucide-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span></span><h3 class="h3">Ask and answer</h3><p class="body" style="color: var(--text-body);">Is this real? What’s it worth? Where do I look? Get answers from people who’ve been doing this for years.</p></div><div style="border-radius: var(--radius-card); padding: 28px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; align-items: flex-start; text-align: left; font-family: var(--font-sans); background: var(--surface-card-alt); color: var(--text-body); height: 100%; gap: 12px;"><span style="color: var(--rust-600); display: inline-flex;"><span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; color: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="route" class="lucide lucide-route"><circle cx="6" cy="19" r="3"></circle><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"></path><circle cx="18" cy="5" r="3"></circle></svg></span></span><h3 class="h3">Share your crawls</h3><p class="body" style="color: var(--text-body);">Publish a route you loved so other people can follow it, and see the crawls locals swear by.</p></div><div style="border-radius: var(--radius-card); padding: 28px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; align-items: flex-start; text-align: left; font-family: var(--font-sans); background: var(--surface-card-alt); color: var(--text-body); height: 100%; gap: 12px;"><span style="color: var(--rust-600); display: inline-flex;"><span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; color: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="store" class="lucide lucide-store"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"></path><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"></path><path d="M2 7h20"></path><path d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"></path></svg></span></span><h3 class="h3">Support local shops</h3><p class="body" style="color: var(--text-body);">Follow, rate, and recommend the stores that deserve it. Your review helps someone find them next.</p></div><div style="border-radius: var(--radius-card); padding: 28px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; align-items: flex-start; text-align: left; font-family: var(--font-sans); background: var(--surface-card-alt); color: var(--text-body); height: 100%; gap: 12px;"><span style="color: var(--rust-600); display: inline-flex;"><span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; color: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg></span></span><h3 class="h3">Build your reputation</h3><p class="body" style="color: var(--text-body);">Become known for what you find. Your profile is your shelf.</p></div></div></div></section><section class="sect sect--cream "><div class="wrap "><div class="split"><div class="split__media"><img src="https://vibe.filesafe.space/1784621508506061344/attachments/1eefee8c-21fc-40ee-9691-4dd060348852.jpg" alt="A feed that’s all secondhand, all the time" loading="lazy"></div><div class="split__body"><span class="eyebrow">The feed</span><h3 class="h2" style="font-size: clamp(26px, 3.2vw, 36px);">A feed that’s all secondhand, all the time</h3><p class="lead">No algorithm guessing what you want. Follow stores, people, and groups and see the finds, sale days, and events that matter to you.</p><ul class="ticks" style="margin-top: 4px;"><li>Photos and stories from real shoppers</li><li>Store announcements and sale days</li><li>Events happening near you</li></ul><button type="button" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-sans); font-weight: var(--weight-semibold); border-radius: var(--radius-control); white-space: nowrap; cursor: pointer; transition: var(--transition-colors); opacity: 1; pointer-events: auto; width: auto; font-size: 16px; height: 48px; padding: 0px 24px; background: var(--action-primary); color: var(--action-primary-text); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; margin-top: 8px; align-self: flex-start;" data-href="join.html" data-hover-style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-sans); font-weight: var(--weight-semibold); border-radius: var(--radius-control); white-space: nowrap; cursor: pointer; transition: var(--transition-colors); opacity: 1; pointer-events: auto; width: auto; font-size: 16px; height: 48px; padding: 0px 24px; background: var(--action-primary-hover); color: var(--action-primary-text); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; margin-top: 8px; align-self: flex-start;">Join the founding community</button></div></div></div></section><section class="sect sect--white "><div class="wrap wrap--mid"><div class="center" style="display: flex; flex-direction: column; gap: 14px; align-items: center;"><div style="display: flex; align-items: center; justify-content: center; gap: 12px; width: 80px; margin: 0px auto 2px;"><span style="height: 1px; flex: 1 1 0%; background: var(--border-field);"></span><span style="color: var(--rust-600); font-size: 10px; line-height: 1;">★</span><span style="height: 1px; flex: 1 1 0%; background: var(--border-field);"></span></div><h2 class="h2" style="max-width: 680px;">Community guidelines</h2><p class="lead" style="max-width: 680px; color: var(--text-body);">Four simple things keep this a place people want to be.</p></div><ul class="ticks mt-40" style="text-align: left; max-width: 620px; margin: 32px auto 0px;"><li>Be kind. Everyone here started somewhere.</li><li>Credit the store when you share a find.</li><li>No reselling scams, fakes, or misleading listings.</li><li>Keep it about secondhand: the stores, the finds, the stories.</li></ul></div></section><section class="sect sect--green sect--tight on-dark "><div class="wrap wrap--narrow"><div class="center stack gap-16" style="align-items: center;"><div style="display: flex; align-items: center; justify-content: center; gap: 12px; width: 80px; margin: 0px auto;"><span style="height: 1px; flex: 1 1 0%; background: var(--border-on-dark);"></span><span style="color: var(--rust-600); font-size: 10px; line-height: 1;">★</span><span style="height: 1px; flex: 1 1 0%; background: var(--border-on-dark);"></span></div><h2 class="h2">Come say hello</h2><p class="lead">Founding members get in before the feed fills up.</p><button type="button" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-sans); font-weight: var(--weight-semibold); border-radius: var(--radius-control); white-space: nowrap; cursor: pointer; transition: var(--transition-colors); opacity: 1; pointer-events: auto; width: auto; font-size: 16px; height: 56px; padding: 0px 32px; background: var(--action-primary); color: var(--action-primary-text); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; margin-top: 8px;" data-href="join.html" data-hover-style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-sans); font-weight: var(--weight-semibold); border-radius: var(--radius-control); white-space: nowrap; cursor: pointer; transition: var(--transition-colors); opacity: 1; pointer-events: auto; width: auto; font-size: 16px; height: 56px; padding: 0px 32px; background: var(--action-primary-hover); color: var(--action-primary-text); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; margin-top: 8px;">Join the founding community</button></div></div></section></main><footer class="ftr"><div class="ftr__cols"><div class="ftr__col"><img class="ftr__mark" src="https://assets.cdn.filesafe.space/aHBTsOEqsC9ODoKsOXLu/media/6a6b94044cb07d8c3fe2e43c.png" alt="ThriftScore"><p style="color: var(--text-on-dark-muted); max-width: 270px; margin-top: 4px;">Where the secondhand world gathers. Discover stores, connect with people, plan your crawl, and learn as you go.</p><div class="socials" style="margin-top: 8px;"><a href="https://www.instagram.com/therealthriftscore" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; flex-shrink: 0; color: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="instagram" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg></span></a><a href="https://www.tiktok.com/@therealthriftscore" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"></path></svg></a><a href="https://www.youtube.com/@ThriftScoreOfficial" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; flex-shrink: 0; color: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="youtube" class="lucide lucide-youtube"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg></span></a><a href="https://www.facebook.com/profile.php?id=61589828931135" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; flex-shrink: 0; color: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="facebook" class="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></span></a></div></div><div class="ftr__col"><span class="ftr__h">Discover</span><a href="how-it-works.html">How It Works</a><a href="events.html">Events &amp; crawls</a><a href="learn.html">Learn</a><a href="community.html">Community</a></div><div class="ftr__col"><span class="ftr__h">Who it’s for</span><a href="join.html">Join the community</a></div><div class="ftr__col"><span class="ftr__h">Company</span><a href="about.html">About ThriftScore</a><a href="founders.html">Meet the Founders</a><a href="impact.html">Our impact</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div></div><div class="ftr__bottom"><span>© 2026 ThriftScore · Frisco, Texas</span><a href="mailto:info@thriftscore.com">info@thriftscore.com</a></div></footer></div>
+<script>
+/* Static export interactions. Plain JavaScript, no libraries: header shadow on scroll, mobile menu, FAQ accordion, button links, button hover colors, forms kept inert. */
+(function(){
+  var ICON_MENU="<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" data-lucide=\"menu\" class=\"lucide lucide-menu\"><line x1=\"4\" x2=\"20\" y1=\"12\" y2=\"12\"></line><line x1=\"4\" x2=\"20\" y1=\"6\" y2=\"6\"></line><line x1=\"4\" x2=\"20\" y1=\"18\" y2=\"18\"></line></svg>",ICON_X="<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" data-lucide=\"x\" class=\"lucide lucide-x\"><path d=\"M18 6 6 18\"></path><path d=\"m6 6 12 12\"></path></svg>";
+  var hdr=document.querySelector('.hdr2');
+  function onScroll(){if(!hdr)return;if(window.scrollY>8)hdr.classList.add('hdr2--scrolled');else hdr.classList.remove('hdr2--scrolled');}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var burger=document.querySelector('.burger'),drawer=document.querySelector('.drawer');
+  if(burger&&drawer){burger.addEventListener('click',function(){var open=!drawer.classList.contains('open');drawer.classList[open?'add':'remove']('open');burger.setAttribute('aria-expanded',open?'true':'false');var s=burger.querySelector('span');if(s)s.innerHTML=open?ICON_X:ICON_MENU;});}
+  var accs=document.querySelectorAll('.accordion');
+  for(var a=0;a<accs.length;a++)(function(acc){
+    var items=acc.querySelectorAll('.acc__item');
+    for(var i=0;i<items.length;i++)(function(item){
+      var btn=item.querySelector('.acc__btn');if(!btn)return;
+      btn.addEventListener('click',function(){
+        var willOpen=btn.getAttribute('aria-expanded')!=='true';
+        for(var j=0;j<items.length;j++){var b=items[j].querySelector('.acc__btn'),w=items[j].querySelector('.acc__wrap'),c=b&&b.children[1],o=willOpen&&items[j]===item;if(b)b.setAttribute('aria-expanded',o?'true':'false');if(w)w.style.maxHeight=o?'var(--acc-h,600px)':'0px';if(c)c.style.transform=o?'rotate(180deg)':'none';}
+      });
+    })(items[i]);
+  })(accs[a]);
+  var links=document.querySelectorAll('[data-href]');
+  for(var k=0;k<links.length;k++)(function(el){if(el.tagName==='FORM')return;el.addEventListener('click',function(){var h=el.getAttribute('data-href');if(el.getAttribute('data-target')==='_blank')window.open(h,'_blank','noopener,noreferrer');else window.location.href=h;});})(links[k]);
+  var hov=document.querySelectorAll('[data-hover-style]');
+  var canHover=!window.matchMedia||window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if(canHover)for(var m=0;m<hov.length;m++)(function(el){var base=el.getAttribute('style')||'',over=el.getAttribute('data-hover-style');el.addEventListener('mouseenter',function(){if(!el.disabled)el.setAttribute('style',over);});el.addEventListener('mouseleave',function(){el.setAttribute('style',base);});})(hov[m]);
+  /* Dropdowns (same markup and styles as the design-system Select) */
+  var combos=document.querySelectorAll('button[role="combobox"]');
+  function closeAll(except){for(var q=0;q<combos.length;q++){var lb=combos[q].parentNode.querySelector('[role="listbox"]');if(lb&&combos[q]!==except){lb.hidden=true;combos[q].setAttribute('aria-expanded','false');}}}
+  for(var n=0;n<combos.length;n++)(function(btn){
+    var lb=btn.parentNode.querySelector('[role="listbox"]');if(!lb)return;
+    var label=btn.querySelector('span');
+    btn.addEventListener('click',function(e){e.stopPropagation();var open=lb.hidden;closeAll(btn);lb.hidden=!open;btn.setAttribute('aria-expanded',open?'true':'false');});
+    var opts=lb.querySelectorAll('[role="option"]');
+    for(var o=0;o<opts.length;o++)(function(op){
+      op.addEventListener('mouseenter',function(){op.style.background='var(--cream-100)';});
+      op.addEventListener('mouseleave',function(){op.style.background=op.getAttribute('aria-selected')==='true'?'var(--cream-100)':'transparent';});
+      op.addEventListener('mousedown',function(e){e.preventDefault();for(var z=0;z<opts.length;z++){opts[z].setAttribute('aria-selected','false');opts[z].style.background='transparent';}op.setAttribute('aria-selected','true');op.style.background='var(--cream-100)';if(label)label.textContent=op.textContent;btn.style.color='var(--text-heading)';btn.setAttribute('data-value',op.textContent);lb.hidden=true;btn.setAttribute('aria-expanded','false');});
+    })(opts[o]);
+  })(combos[n]);
+  document.addEventListener('click',function(){closeAll(null);});
+  /* Browse: category chips and search filter the example listings */
+  var fl=document.querySelector('.filters[data-ts-on]');
+  if(fl){
+    var chips=fl.querySelectorAll('[data-ts-chip]'),on=fl.getAttribute('data-ts-on'),off=fl.getAttribute('data-ts-off');
+    var cards=document.querySelectorAll('[data-ts-tag]'),count=document.querySelector('[data-ts-count]'),empty=document.querySelector('[data-ts-empty]');
+    var search=document.querySelector('.searchrow input'),type='All';
+    function apply(){var q=(search&&search.value||'').toLowerCase(),shown=0;for(var c=0;c<cards.length;c++){var ok=(type==='All'||cards[c].getAttribute('data-ts-tag')===type)&&(!q||cards[c].getAttribute('data-ts-search').indexOf(q)>-1);cards[c].style.display=ok?'':'none';if(ok)shown++;}
+      if(count)count.textContent=shown+' example '+(shown===1?'listing':'listings')+' \u00b7 sorted by community rating';if(empty)empty.hidden=shown>0;}
+    for(var ci=0;ci<chips.length;ci++)(function(ch){ch.addEventListener('click',function(){type=ch.getAttribute('data-ts-chip');for(var y=0;y<chips.length;y++){chips[y].setAttribute('style',chips[y]===ch?on:off);chips[y].setAttribute('aria-pressed',chips[y]===ch?'true':'false');}apply();});})(chips[ci]);
+    if(search)search.addEventListener('input',apply);
+  }
+  var forms=document.querySelectorAll('form');
+  for(var f=0;f<forms.length;f++)(function(form){form.addEventListener('submit',function(e){e.preventDefault();var h=form.getAttribute('data-href');if(h)window.location.href=h;});})(forms[f]);
+})();
+</script>
+</body></html>
